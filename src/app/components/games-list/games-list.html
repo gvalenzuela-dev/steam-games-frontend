@@ -1,0 +1,91 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">
+    Steam Games
+  </h1>
+
+  <!-- Buscador -->
+  <div class="mb-4">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="search()"
+      placeholder="Buscar por nombre o AppID..."
+      class="w-full md:w-96 px-4 py-2 border rounded shadow-sm"
+    />
+  </div>
+
+  <!-- Tabla -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white shadow rounded">
+
+      <thead class="bg-gray-200 text-gray-700">
+        <tr>
+          <th class="py-2 px-4 cursor-pointer">
+            AppID
+          </th>
+
+          <th class="py-2 px-4 cursor-pointer">
+            Name
+          </th>
+
+          <th class="py-2 px-4 cursor-pointer">
+            Developer
+          </th>
+
+          <th class="py-2 px-4 cursor-pointer">
+            Publisher
+          </th>
+
+          <th class="py-2 px-4 cursor-pointer">
+            CCU
+          </th>
+
+          <th class="py-2 px-4 cursor-pointer">
+            Price
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-200">
+        @for (game of filteredGames(); track game.appid) {
+        <tr>
+            <td class="py-2 px-4">{{ game.appid }}</td>
+            <td class="py-2 px-4">{{ game.name }}</td>
+            <td class="py-2 px-4">{{ game.developer }}</td>
+            <td class="py-2 px-4">{{ game.publisher }}</td>
+            <td class="py-2 px-4">{{ game.ccu }}</td>
+            <td class="py-2 px-4">{{ game.price | currency:'USD' }}</td>
+        </tr>
+        }
+      </tbody>
+
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="flex justify-between items-center mt-6">
+
+    <button
+      class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+      (click)="prevPage()"
+      [disabled]="currentPage === 1 || loading">
+      Previous
+    </button>
+
+    <span class="font-semibold">
+      Página {{ currentPage }}
+    </span>
+
+    
+<button
+  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+  (click)="nextPage()"
+  [disabled]="!hasNextPage || loading">
+  Next
+</button>
+
+
+  </div>
+
+</div>
