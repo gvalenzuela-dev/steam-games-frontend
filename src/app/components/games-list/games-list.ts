@@ -75,16 +75,28 @@ prevPage() {
 }
 
 
-  // 🔎 BUSCADOR
-  
-search() {
-  const term = this.searchTerm.toLowerCase();
 
-  this.filteredGames.set(
-    this.games().filter(g =>
-      g.name.toLowerCase().includes(term) ||
-      g.appid.toString().includes(term)
-    )
-  );
+search() {
+  const term = this.searchTerm.trim();
+
+  // 🔁 Vacío → volver a la página actual
+  if (!term) {
+    this.filteredGames.set([...this.games()]);
+    this.hasNextPage = true;
+    return;
   }
+
+  this.loading = true;
+
+  // 🔍 MISMO endpoint /games/:value
+  this.gamesService.getGameById(term).subscribe(res => {
+    const data = res.data ?? res;
+
+    // Unificamos la estructura para la tabla
+    this.filteredGames.set(Array.isArray(data) ? data : [data]);
+    this.hasNextPage = false;
+    this.loading = false;
+  });
+}
+
 }
