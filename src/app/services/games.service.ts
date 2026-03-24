@@ -41,6 +41,7 @@ export class GamesService {
   }
 
   getGameById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/games/${id}`);
+    const search = id.toLowerCase();
+    return this.http.get<any>(`${this.apiUrl}/games/${search}`);
   }
 }
